@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow p-5 mx-auto animate__animated animate__fadeInUp" style="max-width: 600px;">
+        <h3 class="text-center fw-bold text-primary mb-4">بيانات الطالب 📝</h3>
+        <form action="/register" method="POST">
+            <div class="mb-3">
+                <label class="fw-bold">الاسم</label>
+                <input type="text" name="name" class="form-control" required placeholder="ادخل اسمك الثلاثي">
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label class="fw-bold">المرحلة</label>
+                    <select name="grade" id="stageSelect" class="form-select" onchange="updateYears()" required>
+                        <option value="" selected disabled>اختر المرحلة</option>
+                        <option value="الابتدائية">الابتدائية</option>
+                        <option value="الإعدادية">الإعدادية</option>
+                        <option value="الثانوية العامة">الثانوية العامة</option>
+                    </select>
+                </div>
+
+                <div class="col-6 mb-3">
+                    <label class="fw-bold">السنة الدراسية</label>
+                    <select name="stage" id="yearSelect" class="form-select" required>
+                        <option value="" selected disabled>اختر المرحلة أولاً</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn btn-primary w-100 rounded-pill py-2 fw-bold">التالي ⬅️</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function updateYears() {
+    const stage = document.getElementById('stageSelect').value;
+    const yearSelect = document.getElementById('yearSelect');
+    yearSelect.innerHTML = "";
+
+    let options = [];
+    if (stage === "الابتدائية") {
+        options = ["الصف الأول", "الصف الثاني", "الصف الثالث", "الصف الرابع", "الصف الخامس", "الصف السادس"];
+    } else if (stage === "الإعدادية" || stage === "الثانوية العامة") {
+        options = ["الصف الأول", "الصف الثاني", "الصف الثالث"];
+    }
+
+    options.forEach(opt => {
+        let newOption = document.createElement("option");
+        newOption.value = opt;
+        newOption.text = opt;
+        yearSelect.appendChild(newOption);
+    });
+}
+</script>
+{% endblock %}
